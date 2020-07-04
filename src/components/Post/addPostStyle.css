@@ -1,0 +1,126 @@
+.myCardBtnSec{
+    border-top: 1px groove lightslategray;
+    padding-top: 1px;
+    padding-bottom: 5px;
+}
+
+.myItemsVals{
+    font-weight: bold;
+}
+
+.myAPBody{
+    background-image: url('../../media/bg_signUp.jpg');
+    /* height: '100%'; */
+    /* height: 100vh; */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 0%;
+    padding-bottom: 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.myAPContainer{
+    /* text-align: center; */
+    
+    border: 3px solid teal;
+    /* height: 500px; */
+    /* margin-left: 20%; */
+    /* margin-right: 20%; */
+    margin-top: 4%;
+    margin-bottom: 4%;
+    /* background-color: #e8f5e9; */
+    background-color: #fefefe;
+    padding: 3%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+.myFormTitle{
+    font-weight: bolder;
+    font-size: 2em;
+    /* color: #056910; */
+    color: teal;
+    /* margin-top: 8%; */
+    margin-bottom: 0%;
+    text-align: center;
+    justify-content: center;
+    /* align-items: center; */
+}
+.myForm{
+    /* margin-top: 4%; */
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 25px;
+}
+.myTxtBox{
+    color: #056910;
+    font-weight: 700;
+    border: none;
+    margin-left: 1em;
+}
+select{
+    display: block;
+    border-color: none;
+}
+.myAPSelectDiv{
+    border-color: teal;
+}
+.myAPTxtBox{
+    border-bottom-color: teal;
+    /* border: none; */
+    /* border: 1px solid teal; */
+    border-radius: 2px;
+    outline: none;
+    height: 3rem;
+    width: 100%;
+    font-size: 16px;
+    margin: 0 0 8px 0;
+    padding-left: 1%;
+}
+.input-field input[type=text] {
+    border: 1px solid teal;
+    /* padding-left: 1%; */
+    border-radius: 2px; 
+    /* box-shadow: 0 1px 0 0 #000; */
+  }
+  #persom_name{
+      /* padding-left: 1%; */
+      font-size: 14px;
+      text-indent: 2%;
+  }
+  #textarea1AP{
+      border: 1px solid teal;
+      text-indent: 2%;
+      border-radius: 2px;
+  }
+  .myAPImgUploadOutline{
+      border: 1px solid teal;
+      border-radius: 2px;
+      padding-top: 2%;
+  }
+  .myAPImgUploadBtn{
+      font-size: 1.2em;
+  }
+.myIcon :focus{
+    color: #056910;
+    /* background-color: #056910; */
+}
+.myTxtLable{
+    color: #056910;
+}
+.myBtn{
+    width: 100%;
+    border-radius: 25px;
+    font-weight: bold;
+}
+.myCreateNewAcc{
+    text-align: right;
+    font-size: 1em;
+    color: #056910;
+    font-weight: 600;
+}

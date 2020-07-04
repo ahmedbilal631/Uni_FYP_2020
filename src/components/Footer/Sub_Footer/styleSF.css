@@ -1,0 +1,17 @@
+.my_sub_footer{
+    background-color: gray;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+.myCopyright{
+    text-align: center;
+    font-size: small;
+    font-weight: 800;
+}
+.mySF_items_list{
+    text-align: center;
+    font-size: small;
+}
+.mySF_item{
+    margin-left: 0.5%;
+}

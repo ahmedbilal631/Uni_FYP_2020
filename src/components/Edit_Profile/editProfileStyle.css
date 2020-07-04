@@ -1,0 +1,173 @@
+/*profile & editing*/
+.myProfileItemTitle{
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: left;
+    text-indent: 2%;
+    color: teal;
+}
+.myAdBox{
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+.myPageTitle{
+    font-size: 35px;
+    font-weight: bolder;
+    color: teal;
+    text-align: center;
+}
+.mySideLinksTitle{
+    font-size: 16px;
+    font-weight: 800;
+}
+.mySideLinksList{
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.myAPBody{
+    background-image: url('../../media/bg_signUp.jpg');
+    /* height: '100%'; */
+    /* height: 100vh; */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 0%;
+    padding-bottom: 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.myAPContainer{
+    /* text-align: center; */
+    
+    border: 3px solid teal;
+    /* height: 500px; */
+    /* margin-left: 20%; */
+    /* margin-right: 20%; */
+    margin-top: 4%;
+    margin-bottom: 4%;
+    /* background-color: #e8f5e9; */
+    background-color: #fefefe;
+    padding: 3%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+.myFormTitle{
+    font-weight: bolder;
+    font-size: 2em;
+    /* color: #056910; */
+    color: teal;
+    /* margin-top: 8%; */
+    margin-bottom: 0%;
+    text-align: center;
+    justify-content: center;
+    /* align-items: center; */
+}
+.myForm{
+    /* margin-top: 4%; */
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 25px;
+}
+.myTxtBox{
+    color: #056910;
+    font-weight: 700;
+    border: none;
+    margin-left: 1em;
+}
+.dp_Box_Style{
+    text-align: center;
+    align-items: center;
+}
+.dp_style{
+    border-radius: 100%;
+    border: 1px solid teal;
+    width: 50%;
+    height: 100px;
+}
+
+.place_for_dp_Text{
+    /* text-align: center; */
+    background-color: teal;
+    color: #fefefe;
+    font-size: 26px;
+    font-weight: bolder;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+}
+
+select{
+    display: block;
+    border-color: teal;
+}
+.myAPSelectDiv{
+    border-color: teal;
+}
+.myAPTxtBox{
+    border-bottom-color: teal;
+    /* border: none; */
+    /* border: 1px solid teal; */
+    border-radius: 2px;
+    outline: none;
+    height: 3rem;
+    width: 100%;
+    font-size: 16px;
+    margin: 0 0 8px 0;
+    padding-left: 1%;
+}
+/*
+.input-field input[type=text] {
+    border: 1px solid teal;
+    /* padding-left: 1%; 
+    border-radius: 2px; 
+    /* box-shadow: 0 1px 0 0 #000; 
+} */
+#persom_name{
+    border: 1px solid teal;
+    /* padding-left: 1%; */
+    border-radius: 2px; 
+      font-size: 14px;
+      text-indent: 2%;
+      color: teal;
+  }
+  #textarea1AP{
+      border: 1px solid teal;
+      text-indent: 2%;
+      border-radius: 2px;
+  }
+  .myAPImgUploadOutline{
+      border: 1px solid teal;
+      border-radius: 2px;
+      padding-top: 2%;
+  }
+  .myAPImgUploadBtn{
+      font-size: 1.2em;
+  }
+.myIcon :focus{
+    color: #056910;
+    /* background-color: #056910; */
+}
+.myTxtLable{
+    color: #056910;
+}
+.myBtn{
+    width: 100%;
+    border-radius: 25px;
+    font-weight: bold;
+}
+.myCreateNewAcc{
+    text-align: right;
+    font-size: 1em;
+    color: #056910;
+    font-weight: 600;
+}

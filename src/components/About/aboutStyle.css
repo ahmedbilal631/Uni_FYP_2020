@@ -1,0 +1,51 @@
+
+/*some local stylings*/
+.myBuilderName{
+    text-align: left;
+    font-size: 16px;
+    font-weight: bolder;
+}
+.myCreditHeading{
+    font-weight: bolder;
+    font-size: 25px;
+    color: #fefefe;
+}
+
+/*style for welcome screen*/
+.myAboutBody{
+    background-image: url('../../media/bg_signUp.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /* height: 100vh; */
+}
+.myMarginAdjustment{
+    margin-bottom: 35px;
+}
+.myFlexAdjustment{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+.myWCContainer{
+    text-align: center;
+    /* margin-top: 3%; */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* margin-bottom: 3%; */
+    padding-top: 3%;
+    padding-bottom: 3%;
+    /* padding-right: 10%; */
+    /* padding-left: 10%; */
+}
+.myWCTitle{
+    color: #fefefe;
+    font-size: 2em;
+    font-weight: bolder;
+}
+.myWCStatementArea{
+    text-align: center;
+    margin-left: 4%;
+    margin-right: 4%;
+    color: #fefefe;
+}

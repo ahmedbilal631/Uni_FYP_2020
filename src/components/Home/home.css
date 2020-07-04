@@ -1,0 +1,55 @@
+.myHomeBody{
+    background-image: url('../../media/slider/slide_pic_3.jpg');
+    height: 100vh;
+    background-position: center;background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.mySliderContainer{
+    display: flex;
+    flex-direction: row;
+}
+.mySliderStyle{
+    justify-content: center;
+}
+.myAppIntroSpace{
+    border: 2px solid teal;
+    border-radius: 10px;
+    padding-top: 3%;
+    padding-bottom: 3%;    
+    padding-left: 1%;    
+    padding-right: 1%;    
+    margin-top: 6%;
+    margin-bottom: 6%;
+    text-align: center;
+}
+.myHeaderInHome{
+    font-weight: bold;
+    color: teal;
+}
+.myHeaderInHomeX{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    color: teal;
+}
+.myAdminMsgSpace{
+    border: 2px solid teal;
+    border-radius: 10px;
+    padding-left: 1%;    
+    padding-right: 1%;    
+    padding-top: 3%;
+    padding-bottom: 3%;
+    margin-top: 6%;
+    margin-bottom: 6%;
+}
+.myAdminMsgSpaceTxt{
+    text-align: center;
+    font-size: 16px;
+    color: black;
+}
+.myAdminName{
+    font-weight: bold;
+    color: teal;
+}

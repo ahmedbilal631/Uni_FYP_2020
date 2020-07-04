@@ -1,0 +1,18 @@
+.myNav{
+    /* background-color: #056910; */
+    background-color: teal;
+}
+
+.myNav ul {
+    float: right;
+    /* margin-right: 3%; */
+}
+.myNavItem{
+    margin-right: 1em;
+    font-family:  sans-serif;
+    font-weight: bold;
+}
+nav [class*="mdi-"], nav i.material-icons{
+    display: inline;
+    margin-left: 2%;
+}

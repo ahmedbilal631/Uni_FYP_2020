@@ -1,0 +1,39 @@
+.mycommentBox{
+    color: teal;
+    border: 1px solid teal;
+    text-indent: 2%;
+}
+#commentId{
+    text-indent: 2%;
+    color: teal;
+    display: inline;
+}
+#btnId{
+    /* font-weight: bold; */
+    /* font-size: 18px; */
+    box-sizing: initial;
+    /* padding: 4%; */
+    height: 50px;
+    width: 94%;
+
+    /* display: inline; */
+}
+#commentId::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    opacity: 1; /* Firefox */
+  }
+
+.input-field input[type=text] {
+    border: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  }
+  .input-field input[type=text].placeholder {
+      color: black;
+  }
+  .mySocialLinkTxt{
+      font-size: 20px;
+  }
+  .mySocialIconsHeading{
+      color: teal;
+      font-size: 18px;
+  }

@@ -1,0 +1,76 @@
+.myNotificationListItem :hover{
+    background-color: teal;
+    color: white;
+}
+.myNotificationListSubItem{
+    color: black;
+    font-weight: 500;
+    font-size: 13px;
+}
+#myNotifyBadge :hover{
+display: none;
+}
+/* .myViewNotificationsBtn :hover{
+ background-color: lightgray;
+} */
+
+.myLINav{
+    /* background-color: #056910; */
+    background-color: teal;
+}
+.myLogoStyling{
+    margin-top: 0.8%;
+}
+.myNav ul {
+    float: right;
+    /* margin-right: 3%; */
+}
+.myNavItem{
+    margin-right: 1em;
+    font-family:  sans-serif;
+    font-weight: bold;
+}
+.myNavItemX{
+    margin-right: 1em;
+    margin-left: -3em;
+    font-family:  sans-serif;
+    font-weight: bold;
+}
+.mySBCLoseBtn:hover{
+    font-weight: bold;
+}
+.mySBCLoseBtn{
+    /* background-color: #fefefe; */
+    text-align: right;
+    float: right;
+}
+Link{
+    text-decoration: none;
+}
+/* .sidenav li Link{
+    color: teal;
+    font-size: 18px;
+    font-weight: bold;
+}
+*/
+.sidenav li :hover{
+     /* background-color: teal;  */
+    color:white;
+    /* font-size: 18px; */
+    font-weight: bold;
+} 
+.mySN_items{
+    color: black;
+    padding-left: 2%;
+    font-size: 25px;
+}
+.mySN_items:hover{
+    background-color: teal;
+    color: white;
+    padding-left: 2%;
+    font-size: 18px;
+}
+.mySNIcon :hover{
+    text-decoration: none;
+    color: white;
+} 

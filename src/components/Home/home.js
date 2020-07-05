@@ -426,7 +426,7 @@ render() {
     <div className="section white">
       <div className="row container">
         <h2 className="header">Recent Posts</h2>
-        {/* {this.Settings_Posts('recent')} */}
+        {this.Settings_Posts('recent')}
         <div className="row">
           <div className="col s12 m12 l12 xl12">
           {Number(localStorage.getItem('recent_posts_length')) !== 0?
@@ -452,7 +452,7 @@ render() {
     <div className="section white">
       <div className="row container">
         <h2 className="header">All Posts</h2>
-        {/* {this.Settings_Posts('all')} */}
+        {this.Settings_Posts('all')}
         <div className="row">
           <div className="col s12 m12 l12 xl12">
             {Number(localStorage.getItem('all_posts_length'))!== 0?
@@ -497,7 +497,7 @@ render() {
     <div className="section white">
       <div className="row container">
         <h2 className="header">Your Posts</h2>
-        {/* {this.Settings_Posts('your')} */}
+        {this.Settings_Posts('your')}
         <div className="row">
           <div className="col s12 m12 l12 xl12">
           {Number(localStorage.getItem('your_posts_length'))!== 0?

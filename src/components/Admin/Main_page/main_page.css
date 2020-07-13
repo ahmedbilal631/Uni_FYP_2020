@@ -1,0 +1,32 @@
+.menu_items_ad{
+    border-bottom: 1px solid black;
+    padding-bottom: 2%;
+    font-weight: bold;
+}
+.ad_welcome_note{
+    color: blue;
+    border-bottom: 2px solid blue;
+    font-size: 20px;
+    font-weight: 600;
+}
+.my_ad_title{
+    font-size: small;
+    color: black;
+    text-align: center;
+}
+.ad_details{
+    text-align: center;
+    font-weight: 800;
+    color: blue;
+}
+.my_ad_details_pan{
+    border-bottom: 3px double black;
+    padding-bottom: 2%;
+}
+/*---content---*/
+.ad_content_body{
+    margin: 5%;
+}
+.ad_card_item{
+    border-bottom:  1px solid white;
+}

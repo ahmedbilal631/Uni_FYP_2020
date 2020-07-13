@@ -17,6 +17,11 @@ import SearchPage from '../components/Search/search';
 import FeedBackPage from '../components/Feed_Back/feed_back';
 import SettingPage from '../components/Settings/setting_page';
 import HelpPage from '../components/Help/help';
+//-----admin routing------//
+// import AdminLoginPage from '../components/Admin/Main_page/main_page';
+import AdminPage from '../components/Admin/Main_page/main_page';
+import Admin_PostsManagementPage from '../components/Admin/Posts_management/index';
+import Admin_UsersManagementPage from '../components/Admin/User_management/index';
 
 //redux connection
 import {loadData} from '../redux/actions/UserAction/index';
@@ -57,6 +62,9 @@ class Routes extends React.Component {
           <Route exact path={routes.FEEDBACK} component={FeedBackPage} />
           <Route exact path={routes.SETTINGS} component={SettingPage} />
           <Route exact path={routes.HELP} component={HelpPage} />
+          <Route exact path={routes.ADMIN} component={AdminPage} />
+          <Route exact path={routes.AD_POSTS_MANAGEMENT} component={Admin_PostsManagementPage} />
+          <Route exact path={routes.AD_USERS_MANAGEMENT} component={Admin_UsersManagementPage} />
           {/* <Route exact path={routes.CHECKOUT} component={CheckOutPage} /> */}
           {/* <Route exact path={routes.LEARNER_DRIVER} component={LearnerDriver} /> */}
           {/* <Route exact path={routes.DRIVING_INSTRUCTOR} component={DrivingInstructor} /> */}

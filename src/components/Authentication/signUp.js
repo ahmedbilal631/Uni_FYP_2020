@@ -184,7 +184,7 @@ Checker= ()=>{
                     </form> */}
                     <div className="myForm row">
                 {/* <form className="XX"> */}
-                  <div id="myTxtBoxCover" className="input-field">
+                  <div id="myTxtBoxCoverX" className="input-field">
                     <i className="material-icons prefix">account_circle</i>
                      <input id="icon_prefix"
                       style={{border: 'none'}}

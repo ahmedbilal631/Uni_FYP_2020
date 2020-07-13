@@ -6,17 +6,17 @@ import Dummy_Profile from '../../media/dummy_profile.jpg';
 import Dummy_State from './dummy_posts';
 
 
-// let initial_state = [];
-// let dum_state =  Dummy_State
-// let local_stored_posts = JSON.parse(localStorage.getItem('posts_state'));
-// if(local_stored_posts === null){
-//   initial_state = dum_state;
-// }else{
-//   initial_state = local_stored_posts;
-// }
+let initial_state = [];
+let dum_state =  Dummy_State
+let local_stored_posts = JSON.parse(localStorage.getItem('posts_state'));
+if(local_stored_posts === null){
+  initial_state = dum_state;
+}else{
+  initial_state = local_stored_posts;
+}
 
 //reducer starts here
-export default (state= Dummy_State, action)=>{
+export default (state= initial_state, action)=>{
     switch(action.type){
 
       //...............................Add post............................
@@ -27,28 +27,33 @@ export default (state= Dummy_State, action)=>{
                 console.log('now post state', state);
                 localStorage.setItem('posts_state', JSON.stringify(state));
                 return state;  
-              //..............................................Update...............  
-          case types.update_post:
-          console.log('update post from reducer', action.payload);
-          let _post = action.payload.post;
-          state = state.filter((i)=>i.post_id !== _post.post_id);
-          state.push(_post);
- 
+                
+                //..............................................Update...............  
+                case types.update_post:
+                  console.log('update post from reducer', action.payload);
+                  let _post = action.payload.post;
+                  state = state.filter((i)=>i.post_id !== _post.post_id);
+                  state.push(_post); 
+                  localStorage.setItem('posts_state', JSON.stringify(state));
           console.log('after update', state); 
-          return state 
+          return state; 
           
           //.............................Delete post................................
           case types.del_post:
             console.log('delet post from post-reducer', action.payload);
             // let _id = action.payload.id;
             state = state.filter((item)=> item.post_id !== action.payload.id);
+            localStorage.setItem('posts_state', JSON.stringify(state));
             console.log('after delete', state); 
             return state;
-          //......................All posts........................................
+
+
+            //......................All posts........................................
           case types.set_posts:
             console.log('you sent posts setting request post-reducer', action.payload);
             localStorage.setItem('display_posts_setting', action.payload.interest);
             return state ={post_interest: action.payload.interest, ...state};
+
             //......................All posts........................................
           case types.all_posts:
             console.log('you sent all post request post-reducer', action.payload);

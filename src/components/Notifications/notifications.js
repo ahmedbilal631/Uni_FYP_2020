@@ -171,7 +171,7 @@ GiveAge =(age_group)=>{
                                 <ul className="collection">
                                     {notified_post.length !== 0?
                                     notified_post.map((item)=>(
-                                        <li className="collection-item avatar" onClick={()=>{localStorage.setItem('clicked_post_id',item.post_id);localStorage.setItem('interest','single'); }}>
+                                        <li className="collection-item avatar" key={item.post_id} onClick={()=>{localStorage.setItem('clicked_post_id',item.post_id);localStorage.setItem('interest','recent'); }}>
                                         <Link to="/display_posts">
                                        <img src={item.dp_image} alt="" className="circle" />
                                         <span className="title">{item.name}</span><span> is {this.Capitalize(item.status)}</span>
@@ -206,7 +206,7 @@ GiveAge =(age_group)=>{
                             
                             {
                                 all_notified_post.map((item)=>(
-                                    <li className="collection-item avatar" onClick={()=>{localStorage.setItem('clicked_post_id',item.post_id);localStorage.setItem('interest','single'); }}>
+                                    <li className="collection-item avatar" key={item.post_id} onClick={()=>{localStorage.setItem('clicked_post_id',item.post_id);localStorage.setItem('interest','single'); }}>
                                     <Link to="/display_posts">
                                    <img src={item.dp_image} alt="" className="circle" />
                                     <span className="title">{item.name}</span><span> is {this.Capitalize(item.status)}</span>
@@ -259,7 +259,9 @@ GiveAge =(age_group)=>{
                             </div>
                         </div> */}
                         <div className="col s12 m3 l3 xl2">
-                            <Side_Links />
+                        <div className="section table-of-contents">
+                            <Side_Links />                                       
+                            </div>
                         </div>
                     </div>
                 </div>

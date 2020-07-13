@@ -3,18 +3,18 @@ import {Link} from 'react-router-dom';
 
 import './navStyle2.css';
 
-import SB_bg from '../../../media/side_bar/side_bar_bg_3.jpg';
-import SB_dp from '../../../media/dummy_profile.jpg';
+// import SB_bg from '../../../media/side_bar/side_bar_bg_3.jpg';
+// import SB_dp from '../../../media/dummy_profile.jpg';
 import Logo from '../../../media/final_logo.png';
 
 //redux
 import {connect} from 'react-redux';
 // import {addUser, loadData} from '../../redux/actions/UserAction/index';
-import { set_posts, loadData } from '../../../redux/actions/postAction/post_actions';
-import {  read_notification, loadDataUser } from '../../../redux/actions/UserAction/index';
+// import { set_posts, loadData } from '../../../redux/actions/postAction/post_actions';
+// import {  read_notification, loadDataUser } from '../../../redux/actions/UserAction/index';
 
 
-class NavBar2 extends Component {
+class Admin_NavBar extends Component {
     constructor(props){
         super(props);
         this.state ={
@@ -55,14 +55,14 @@ class NavBar2 extends Component {
 // }
 //...................................
 
-    //function to close the side bar
-    closeSB=()=>{
-        // alert('yes close');
+//     //function to close the side bar
+//     closeSB=()=>{
+//         // alert('yes close');
 
-        window.jQuery(document).ready(function(){
-            window.jQuery('.sidenav').sidenav('close');
-          });   
-}
+//         window.jQuery(document).ready(function(){
+//             window.jQuery('.sidenav').sidenav('close');
+//           });   
+// }
 //...........................................
 //text case changer
 Capitalize= (s)=>{
@@ -217,42 +217,16 @@ Extract_read_notifications = (new_list)=>{
 
         return (
             <div className='navbar-fixedX'>
-             <nav className='myLINav'>
+             <nav className='myLINav pacific blue'>
             <div className="nav-wrapper">
-            <span className="menu_btn">
-                            <span className='sidenav-trigger' data-target="slide-out" ><i className="menu_btn_style material-icons " >dehaze</i></span>
+            <span className="menu_btn myNavItem">
+                         <Link to="/admin">Admin Portal</Link>
                       </span>
                       <span>
-                         <Link to="/home"><img className="myLogoStyling brand-logo" width="150px" src={Logo} alt="images/yuna.jpg"  /></Link>
+                         <Link to="#admin"><img className="myLogoStyling brand-logo" width="150px" src={Logo} alt="images/yuna.jpg"  /></Link>
                       </span>
-                      <ul id="slide-out" className="sidenav">
-                    <li><div className="user-view">
-  
-                    <span className="mySBCLoseBtnX"><i className="mySBCLoseBtn material-icons" onClick={this.closeSB}>backspace</i></span>
-  
-                     <div className="background center">
-                     <img src={SB_bg} alt="side bar bg" />
-                    </div>
-    <Link to="#dp"><img className="circle" src={SB_dp} alt="images/yuna.jpg"  /></Link>
-    <Link to="#name"><span className="white-text name">John Doe</span></Link>
- <Link to="#email"><span className="white-text email">jdandturk@gmail.com</span></Link>
-                    </div></li>
-  <li className="mySN_items" onClick={this.closeSB}><Link to='/home'><i className="mySNIcon material-icons">home</i><span>Home</span></Link></li>
-  <li className="mySN_items" onClick={()=>{
-      this.closeSB();
-      this.Extract_read_notifications(get_notifications);
-      }}><Link to='/notifications'><i className="mySNIcon material-icons">notifications_active</i><span>Notifications</span><span id='myNotifyBadge' className="new badge"> {notified_post.length}</span></Link></li>
-  <li className="mySN_items" onClick={this.closeSB}><Link to='/search'><i className="mySNIcon material-icons">search</i><span>Search</span></Link></li>
-  <li className="mySN_items" onClick={this.closeSB}><Link to='/add_post'><i className="mySNIcon material-icons">add_circle_outline</i><span>Add new post</span></Link></li>
-  <li className="mySN_items" onClick={()=>{this.closeSB(); localStorage.setItem('interest', 'active')}}><Link to='/display_posts'><i className="mySNIcon material-icons">cast</i><span>Active posts</span></Link></li>
-  <li className="mySN_items" onClick={()=>{this.closeSB(); localStorage.setItem('interest', 'resolved')}}><Link to='/display_posts'><i className="mySNIcon material-icons">check_box</i><span>Resolved posts</span></Link></li>
-  <li className="mySN_items" onClick={this.closeSB}><Link to='/profile'><i className="mySNIcon material-icons">account_circle</i><span>Profile</span></Link></li>
-  <li className="mySN_items" onClick={this.closeSB}><Link to='/settings'><i className="mySNIcon material-icons">build</i><span>Settings</span></Link></li>
-  <li className="mySN_items" onClick={this.closeSB}><Link to='/help'><i className="mySNIcon material-icons">live_help</i><span>Help?</span></Link></li>
-  <li className="mySN_items" onClick={()=>{this.closeSB(); localStorage.setItem('isReport', null);localStorage.setItem('msg_type','feedback');}}><Link to='/feedback'><i className="mySNIcon material-icons">feedback</i><span>Feedback</span></Link></li>
-  <li className="mySN_items" onClick={this.closeSB}><Link to='/about'><i className="mySNIcon material-icons">feedback</i><span>About us</span></Link></li>
-  <li className="mySN_items" onClick={this.closeSB}><Link to='/signin'><i className="mySNIcon material-icons">power_settings_new</i><span>Logout</span></Link></li>
-</ul>
+
+         
 {/* <i className="material-icons">menu</i> */}
 
             {/* <a href="#" className="brand-logo left">Logo</a> */}
@@ -344,5 +318,5 @@ const mapStateToProps=(state)=>{
     }
 };
 
-export default connect(mapStateToProps, {set_posts, read_notification, loadData, loadDataUser})(NavBar2);
+export default connect(mapStateToProps, null)(Admin_NavBar);
 // export default NavBar2

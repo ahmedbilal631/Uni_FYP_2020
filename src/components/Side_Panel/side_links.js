@@ -65,8 +65,8 @@ class Side_Links extends Component {
                             <div className="mySideLinksList">
                                 <ul className="mySideLinksStyle">
                                     <li><Link to='/add_post'>Add new post</Link></li>
-                                    <li onClick={this.YourPosts}><Link to='/display_posts'>Your posts</Link></li>
-                                    <li onClick={this.ActivePosts}><Link to='/display_posts'>Your active posts</Link></li>
+                                    <li onClick={this.YourPosts}><Link to='/display_posts'>Your active posts</Link></li>
+                                    {/* <li onClick={this.ActivePosts}><Link to='/display_posts'>Your active posts</Link></li> */}
                                     <li onClick={this.InActivePosts}><Link to='/display_posts'>Your disabled posts</Link></li>
                                     <li onClick={this.ResolvedPosts}><Link to='/display_posts'>Your resolved posts</Link></li>
                                     {/* <li onClick={this.FollowedPosts}><Link to='/display_posts'>Your followed posts</Link></li> */}

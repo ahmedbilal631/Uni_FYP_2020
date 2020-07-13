@@ -406,7 +406,9 @@ class Profile extends Component {
                             </div>
                         </div>
                         <div className="col s12 m4 l4 xl2">
-                                <Side_Links/>
+                        <div className="section table-of-contents">
+                            <Side_Links />                                       
+                            </div>
                         </div>
                         <div>
                          <div id="modal4" className="modal">

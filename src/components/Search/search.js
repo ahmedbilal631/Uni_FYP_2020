@@ -1,143 +1,60 @@
+//search posts page
+
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
-
-import './search.css';
-// 
 import NavBar from '../Header/NavBar2/navBar2';
 import SubFooter from '../Footer/Sub_Footer';
 import Footer from '../Footer/Main_Footer/footer';
 import Side_Links from '../Side_Panel/side_links';
-import By_age_search from './by_age_search';
+// import './addPostStyle.css';
+import './search.css';
 
-//redux
+import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import {Link} from 'react-router-dom';
+
 import {connect} from 'react-redux';
-// import {addUser, loadData} from '../../redux/actions/UserAction/index';
-import { set_posts, loadData, all_post } from '../../redux/actions/postAction/post_actions';
-import {  read_notification, loadDataUser } from '../../redux/actions/UserAction/index';
-
 
 class Search extends Component {
-state =  {
-    posts: [],
-    user: {},
-    search_way: 'none',
-    age_group : '',
-    location: '',
-    name : '',
-    status: '',
-    gender:'',
-    // age_group: '',
-    disability: '',
-    // location:'',
-    country:'',
-    region: '',
-    description:'',
-    resloved: false,
-    // password:'',
-    dp_image: '',
-    post_time: '',
-
-    //......
-    proceed_search: false,
-    show_results: false,
-    display_posts: [],
-}
-
-        //..........................................    
-        componentDidMount(){
-            
-            //   this.setState({
-            //       posts: this.props.loadData(),
-            //       user: this.props.loadDataUser(),
-            //   });
-            //   this.props.loadData();         
-            //   this.props.loadDataUser();
+    constructor(props){
+        super(props);
+        this.state ={
+            //...............search options.......
+            age_group : '',
+            gender:'',
+            disability: '',
+            country:'',
+            region: '',
+            dp_image: '',
+            status:'',
+            //...........posts.............
+            all_posts: this.props.posts,
+            //................user.........
+            user: this.props.user,
+            //.........btn flags...........
+                        //...................
+                        proceed_search: false,
+                        show_results: false,
+                        show_single: false,
+                        // show_results: true,
+                        //............final.....
+                        display_posts: [],
+                        
+    }
+  console.log('state from search page', this.state);  
+  }
+  ///..................................................................
+  componentDidMount(){
+    window.jQuery(document).ready(function(){
+      window.jQuery('.scrollspy').scrollSpy()});
+      window.jQuery(document).ready(function(){
+          window.jQuery('.collapsible').collapsible();
+        });
               
-              //range selectors
-            //   var slider = document.getElementById('test-slider');
-            //   noUiSlider.create(slider, {
-            //    start: [20, 80],
-            //    connect: true,
-            //    step: 1,
-            //    orientation: 'horizontal', // 'horizontal' or 'vertical'
-            //    range: {
-            //      'min': 0,
-            //      'max': 100
-            //    },
-            //    format: wNumb({
-            //      decimals: 0
-            //    })
-            //   });
-                   
-            } 
-            
-            //.......................................
-    //         componentWillReceiveProps(nextProps){
-    //             console.log(nextProps.posts,"next props")
-    //             // localStorage.setItem('read notification', 'no');
-    //             this.setState({
-    //         read: false,
-    //         posts : nextProps.posts,
-    //         posts_interest : nextProps.posts.post_interest,
-    //         user: nextProps.user
-    //     })    
-    // }
-    //...................................
-    //text case changer
-// Capitalize= (s)=>{
-//     let flag = false;
-//     let full_str = 'Not_mentioned.'
-//     if(s === ''){
-//         return 'Not mentioned.';
-//     }else{
-//         let collect = s.toString();
-//         let first_letter= collect.slice(0, 1);
-//         let second_letter= collect.slice(1);
-//          full_str = first_letter.toUpperCase() + second_letter.toLowerCase();
-//          return full_str;
-//         }
-// };
-//.............................................
-
-//age group evaluations
-GiveAge =(age_group)=>{
-    if(age_group === '14'){
-        return 'Less than 15 yrs'
-    }
-    else if(age_group === '18'){
-        return '15 to 20 yrs';
-    }
-    else if(age_group === '23'){
-        return '21 to 25 yrs';
-    }    else if(age_group === '27'){
-        return '26 to 30 yrs';
-    }    else if(age_group === '33'){
-        return '31 to 35 yrs';
-    }    else if(age_group === '37'){
-        return '36 to 40 yrs';
-    }    else if(age_group === '43'){
-        return '41 to 45 yrs';
-    }
-    else if(age_group === '47'){
-        return '46 to 50 yrs';
-    }
-    else{
-        return 'above 50 yrs'
-    }
 }
-
-//Search filter functions...............................
-ChangeSearchWay =(filter)=>{
-    console.log('change filter');
-        this.setState({
-            search_way : filter
-        })
-}
+//.......................................................................
+//state handlers are here..............
 //.......................................................
         //age handling control
         handleAgeChange=event=>{
@@ -179,7 +96,7 @@ ChangeSearchWay =(filter)=>{
         //image handling control
             handleImgChange=event=>{
                 let textX = this.state.dp_image;
-                textX = event.target.value
+                textX = event.target.files[0];
                 console.log(textX, 'image path');
                 this.setState({
                     dp_image: textX,
@@ -224,9 +141,8 @@ ChangeSearchWay =(filter)=>{
             });
         }
         //...........................................
-            
 
-
+//.........................................................................
             //Main search functions
             Search=(post_arr)=>{
                 let given_arr = post_arr;
@@ -297,23 +213,23 @@ ChangeSearchWay =(filter)=>{
                 
                 //empty the state
                 this.setState({
-                    posts: [],
-                    user: {},
+                    // posts: [],
+                    // user: {},
                     search_way: 'none',
-                    age_group : '',
                     location: '',
                     name : '',
                     status: '',
-                    gender:'',
                     // age_group: '',
-                    disability: '',
                     // location:'',
+                    age_group : '',
+                    gender:'',
+                    disability: '',
                     country:'',
                     region: '',
+                    dp_image: '',
                     description:'',
                     resloved: false,
                     // password:'',
-                    dp_image: '',
                     post_time: '',
                     
                     //....
@@ -335,348 +251,342 @@ ChangeSearchWay =(filter)=>{
                 
             }
             }
+//.....................................................................
+ //....my new car generator
+ New_Card_Creator=(list)=>{
+    let user = this.state.user;
+    console.log('call to new card creator - given list -', list);
+    return(
+       <ul className="collapsible">
+            {list.length !== 0?
+          list.map((i, index)=>(
+          <li key={i.post_id} >
+<div className="collapsible-header">
+<div className="card horizontal">
+<div className="card-image activator">
+{/* <img src={"https://firebasestorage.googleapis.com/v0/b/firsttry-4edb6.appspot.com/o/images%2Ffaizan.jpg?alt=media&token=d7822c6f-6e47-4a88-b30d-c7e5beea5c0c"} /> */}
+<img src={i.dp_image} alt="post image..." />
+</div>
+<div className="card-stacked">
+<div className="card-content">
+<ul className="collection">
+    <li className="collection-item">
+      <p className="card-title activator grey-text text-darken-4">{(i.name).slice(0,7)}</p>
+    </li>
+    <li className="collection-item">
+      <p className="myItemsVals teal-text text-darken-3">{(i.status).toUpperCase()}</p>
+    </li>
+    <li className="collection-item">
+      <p>{i.location} , {(i.region).slice(0,7)} , {(i.country).slice(0,8)}</p>
+    </li>
+    <li className="collection-item">
+      {/* <p className="myItemsVals col s12 m12 l6 xl6">Posted on: </p> */}
+      <span>
+      Posted on : 
+      </span>
+      <span className="myItemsVals"> {i.post_time.date}-{i.post_time.month}-{i.post_time.year}</span>
+    </li>
+    {i.post_creator_email === user.email?
+    <li className="collection-item">
+      <span>
+      Post status :  
+      </span>
+          <span className="myItemsVals"> {i.post_status}</span>
+    </li>
+    :
+    <li className="collection-item">
+      <span>
+      Posted by :  
+      </span>
+    <span className="myItemsVals"> {(i.post_creator_name).slice(0,7)}</span>
+    </li>
+}
+  </ul>
 
+</div>
 
-    render() {
+<div className="card-action" onClick={()=>{ localStorage.setItem('clicked_post_id',i.post_id);localStorage.setItem('interest','single'); }}>
+<Link to="#copy_link">
+  {/* <i className="material-icons right" title="share">share</i> */}
+    VIEW POST
+  </Link>
+</div>
+</div>
+</div>
+{/*......*/}          
+</div>
+<div className="collapsible-body">
+<p><span className="card-title grey-text text-darken-4">{i.name} </span> is <span className="myItemsVals teal-text text-darken-3">{(i.status).toUpperCase()}</span></p>
+<p>The location is <span className='myItemsVals'> {i.location} , {i.region} , {i.country}</span>.</p>  
+<p><span className='myItemsVals'>{i.name}'s </span> age is approx {i.age_group} and have disability as {i.disability}.</p>
+<p>This post was uploaded on <span className='myItemsVals'> {i.post_time.date}-{i.post_time.month}-{i.post_time.year} </span> and uploaded by <span className='myItemsVals'> {i.post_creator_name}</span>.</p>
+{
+  i.post_creator_email === user.email?
+<div className="row">
+  <div className="col s12 m12 l12 xl12">
+  <Link to='/edit_post'>
+  <button className="btn myBtn" onClick={()=>{localStorage.setItem('edit_post_code', i.post_id)}}>Edit post</button>
+  </Link>      
+  </div>
+  </div>
+  :
+<div className="row">
+<div className="col s12 m12 l6 xl6">
+  <Link to='#contact'>
+  <button className="btn myBtn">Contact</button>
+  </Link>
+</div>
+<div className="col s12 m12 l6 xl6">
+<Link to='/feedback'>
+  <button className="btn myBtn"
+  onClick={()=>{localStorage.setItem('reported_post_id', i.post_id); localStorage.setItem('msg_type', 'report')}}
+  >Report</button>
+  </Link>
+</div>
+</div>
+}
 
-        //....................................................State.................
-        const { country, region,
-            name,
-            status,
-            gender,
-            // number: '',
-            age_group,
-            disability,
-            location,
-            description,
-        dp_image } = this.state;
-///...................................................................
-
-            //grab posts
-    let get_posts = this.props.posts;
-    //grab notifications
-    // let get_notifications = this.props.notifications;
-    // console.log('notifications',get_notifications);
+{/* <span>Lorem ipsum dolor sit amet.</span> */}
+</div>
+            </li>
+          )):
+          <li className="col s12 m12 l12 xl12 center">
+    <div className="collapsible-header">
+      Sorry, There is no post to display.
+    </div>
+    <div className="collapsible-body">
+        <Link to='/add_post'> 
+        <button className="btn myBtn" >Add new post?</button>
+        </Link>
+    </div>
+</li>
+          }
+          </ul>
+    )
     
-    // //grab user
-    let user = this.props.user;
-    console.log('state=search', this.state);
+}
+//..........................................................
+//display single page post
+View_Post=()=>{
+    let post_id = localStorage.getItem('clicked_post_id');
+    let post = this.state.all_posts.filter((i)=> i.post_id === post_id);
+    this.setState({
+        display_posts : post,
+        show_single: true,
+    });
+
+}
+//...........................................................
+//notify like display
+// Small_Card_Display=(list)=>{
+//     let user = this.state.user;
+//     console.log('comming list', list,'by', user);
     
-    
-    // //to get today date..........................
-    //         let yr = new Date().getFullYear();
-    //         let mn = new Date().getMonth();
-    //         let dt = new Date().getDate();
-    //         let hr = new Date().getHours().toString();
-    //         let min = new Date().getMinutes().toString();
-    //         let get_time =Number( yr.toString()+(mn + 1).toString()+dt.toString());
-    //         console.log(get_time, 'form time number notification page');
-
-
-
-    // //posts extract acc to notification
-    // let notified_post = [];
-    // let temp = [];
-    // // console.log('user read array from nav',user.notification_read, JSON.parse(localStorage.getItem('saved_read_notifications')));
-    
-    // for (let k = 0; k<get_notifications.length; k++){
-    //     if(get_notifications[k].notification_date >= (get_time - 2)){
-    //         temp.push(get_notifications[k]);
-    //     }
-    // }
-    // console.log('let temp', temp, 'get', get_notifications, 'from notifications page');
-   
-    // for(let i = 0; i<temp.length; i++){
-    //     for(let j = 0; j<get_posts.length; j++){
-    //         if(temp[i].post_id === get_posts[j].post_id){
-    //             notified_post.push(get_posts[j]);
-    //         }
-    //     }
-    // }
-    // notified_post.reverse();
-    // console.log('notified posts', notified_post);
-
-    // //.................................................................
-
-
-    // let all_notified_post = [];
-    // let push_flag = [];
-    // for(let y = 0; y<temp.length; y++){
-    //     get_notifications = get_notifications.filter((item)=> item.notification_date !== temp[y].notification_date);
-
-    // }
-
-    // console.log('all notis', get_notifications);
-    
-
-
-
-
-        return (
-            <div className="myNotiMainBody">
-                <NavBar />
-                <div className="myAdBox">
-                <p className="myPageTitle">SEARCH</p>
-                <div>
-        {/* <button onClick={()=>{toast('yes I am here..')}}>Notify !</button> */}
-        <ToastContainer />
-      </div>
-                </div>
-                <div className="container">
-                    <div className="row">
-                        <div className="col s12 m8 l8 xl9">
-                            <div className="myLeftPanel">
-                                {
-                                    this.state.show_results === true?
-                                    <p className="myPanelTitle">
-                                        Found results- ({this.state.display_posts.length}) _only.
-                                    </p>
-                                    :
-                                    <p className="myPanelTitle">
-                                    Lets make a new search!
-                                    </p>
-                                }
-                                <div className="mySearchBox">
-                                    {
-                                        this.state.show_results === true?
-                                        <div className="row">
-                                            {this.state.display_posts.length !== 0?
-                                        <div>{
-                                            this.state.display_posts.map((item, index)=>(
-                                                <div className="col s12 m6 l6 xl4" key={item.post_id}>
-                                                <div className="card sticky-action">
-                                                <div className="card-content row">
-                                                        <div className="col s6 m6 l6 xl6">
-                                                        <i className="material-icons left" title="follow">star_border</i>
-                                                        </div>
-                                                        <div className="col s6 m6 l6 xl6">
-                                                        <i className="material-icons right" title="share">share</i>
-                                                        </div>
-                                                    </div>
-                                                 <div className="card-image waves-effect waves-block waves-light">
-                                                <img className="activator" src={item.dp_image} alt="images/office.jpg" />
-                                                </div>
-                                                <div className="card-content">
-                                                    <div className="row">
-                                                        <div className="col s8 m8 l8 xl8">
-                                                        <span className="card-title activator grey-text text-darken-4">{item.name}</span>
-                                                        </div>
-                                                        <div className="col s4 m4 l4 xl4">
-                                                        <i className="material-icons activator right" title="details">turned_in</i>
-                                                        </div>
-                                                    </div>
-                                                    <div className="row">
-                                                        <div className="col s6 m6 l6 xl6">
-                                                        <span className="grey-text text-darken-4">Status</span>
-                                                        </div>
-                                                        <div className="col s6 m6 l6 xl6">
-                                                      <span className="myItemsVals teal-text text-darken-3">{(item.status).toUpperCase()}</span>
-                                                        </div>
-                                                    </div>
-                                   
-                                                    <div className="row">
-                                                        <div className="col s6 m6 l6 xl6">Country -</div>
-                                                      <div className="myItemsVals col s6 m6 l6 xl6">{item.country}</div>
-                                                    </div>
-                                                    <div className="row">
-                                                        <div className="col s6 m6 l6 xl6">Region -</div>
-                                                       <div className="myItemsVals col s6 m6 l6 xl6">{item.region}</div>
-                                                    </div>
-                                                    <div className="row">
-                                                        <div className="col s6 m6 l6 xl6">Post date -</div>
-                                                        <div className="myItemsVals col s6 m6 l6 xl6">{item.post_time.date}-{item.post_time.month}-{item.post_time.year}</div>
-                                                    </div>
-                                                    {
-                                                        item.post_creator_email === user.email?
-                                                        <div className="row">
-                                                        <div className="col s6 m6 l6 xl6">Post status</div>
-                                                        <div className="myItemsVals col s6 m6 l6 xl6">{item.post_status}</div>
-                                                    </div>
-                                                    :                                    
-                                                    <div className="row">
-                                                    <div className="col s6 m6 l6 xl6">Posted By</div>
-                                                    <div className="myItemsVals col s6 m6 l6 xl6">{(item.post_creator_name).slice(0,7)}</div>
-                                                    </div>
-                                                    }
-                                                
-                                                </div>
-                                                <div className="card-action">
-                                                    {item.post_creator_email === user.email?
-                                                    <Link to="/edit_post" className='center'><i className="material-icons">edit</i> Edit Post</Link>
-                                                    :
-                                                    <Link to="#report" className='center'><i className="material-icons">flag</i> Report</Link>
-                                                }
-                                                    {/* <Link to="/edit_post" className='right'>In-Active</Link> */}
-                                                </div>
-                                               <div className="card-reveal">
-                                                   <div className="row">
-                                                       <div className="col s12 m12 l12 xl12">
-                                                       <span className="card-title grey-text text-darken-4"><i className="material-icons right">close</i></span>
-                                                       </div>
-                                                   </div>
-                                                   <div className="row">
-                                                       <div className="col s6 m6 l6 xl6">
-                                           <span className="card-title grey-text text-darken-4">{item.name}</span>
-                                                       </div>
-                                                       <div className="col s6 m6 l6 xl6">
-                                           <span className="card-title teal-text text-darken-4">{(item.status).toUpperCase()}</span>
-                                                           </div>
-                                                   </div>
-                                                   <div className="row">
-                                                       <div className="myItemsVals col s12 m12 l12 xl12">Details</div>
-                                                       <div className="col s12 m12 l12 xl12">
-                                                       {item.description}.-
-                                                       </div>
-                                                   </div>
-                                                   <div className="row">
-                                                       <div className="myItemsVals col s12 m12 l12 xl12">Address</div>
-                                                       <div className="col s12 m12 l12 xl12">
-                                                       {item.location},{item.region},{item.country}
-                                                       </div>
-                                                   </div>
-                                                   <div className="row">
-                                                       <div className="myItemsVals col s12 m12 l12 xl12">Contact</div>
-                                                       <div className="col s12 m12 l12 xl12">
-                                                       contact info will be here.
-                                                       </div>
-                                                   </div>
-                                                   <div className="row">
-                                                       <div className="myItemsVals col s6 m6 l6 xl6">Follow</div>
-                                                       <div className="myItemsVals col s6 m6 l6 xl6">
-                                                           Report
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                               </div>
-                                               </div>
-                          ))
+//     <ul className="collection">
+//     {list.length !== 0?
+//     list.map((item)=>(
+//         <li className="collection-item avatar" key={item.post_id} onClick={()=>{localStorage.setItem('clicked_post_id',item.post_id);localStorage.setItem('interest','single'); }}>
+//         <Link to="/display_posts">
+//        <img src={item.dp_image} alt="" className="circle" />
+//         <span className="title">{item.name}</span><span> is {this.Capitalize(item.status)}</span>
+//           <p className="myNotificationListSubItem">Posted By - , {this.Capitalize(user.name)}</p>
+//           <p className="myNotificationListSubItem">{item.region}, {item.country}</p>
+//           <p className="myNotificationListSubItem">Age approx - , {this.GiveAge(item.age_group)}</p>
+//           <p className="myNotificationListSubItem">{item.post_time.date},{item.post_time.month}, {item.post_time.year}</p>
+//           <p className="secondary-content">
+//               New
+//           </p>
+//         </Link></li>
+//     ))
+// :
+// <li className="collection-item">
+// <p className="myNotificationListSubItem">
+// Oh! There is no new Notification.
+// </p>
+// {/* <p>
+// <Link to="/add_post" className='myViewNotificationsBtn'>
+//     <button className="btn myUpdateBtnX myBtn">Let,s make a new post!</button>
+// </Link>
+// </p> */}
+// </li>
+// }
+// </ul>
+// }
+render() {
+            //....................................................State.................
+            const { country, region,
+                name,
+                status,
+                gender,
+                // number: '',
+                age_group,
+                disability,
+                location,
+                description,
+            dp_image } = this.state;
+    ///...................................................................
+    return (
+        <div className="myNotiMainBody">
+        <NavBar />
+        <div className="myAdBox">
+        <p className="myPageTitle">SEARCH</p>
+        <div>
+{/* <button onClick={()=>{toast('yes I am here..')}}>Notify !</button> */}
+<ToastContainer />
+</div>
+        </div>
+        <div className="container">
+            <div className="row">
+                <div className="col s12 m8 l8 xl9">
+                    <div className="myLeftPanel">
+                        {
+                            this.state.show_results === true?
+                            <p className="myPanelTitle">
+                                Found results- ({this.state.display_posts.length}) _only.
+                            </p>
+                            :
+                            <p className="myPanelTitle">
+                            Lets make a new search!
+                            </p>
                         }
-                              <p>
-                                <button className=" btn waves-effect waves-light myBtn" onClick={()=>{this.setState({show_results: false})}} >Back to search</button>
-                              </p>
-                          </div>
-                          :
-                          <div className="col s12 m12 l12 xl12 center">
-                              Sorry, There is no post found to display.
-                          </div>
-                                        }
-                                            </div>
-                                        :
-                                    <div>
-                                        {/* <div>Choose your options</div> */}
-
-                                        <div>
-                                            <p>
-                                            <select className='myFormBox' onChange={this.handleStatusChange}>
-                                                <option value={status} disabled >Choose person status</option>
-                                                  <option value="missing">Missing</option>
-                                                  <option value="found">Found</option>
-                                    </select>
-                                            </p>
-                                            <p>
-                                        <select  className='myFormBox' onChange={this.handleAgeChange}>
-                                                <option value={age_group} disabled >Select age group</option>
-                                                <option value="14">Under-15 yrs</option>
-                                                <option value="18">16-20 yrs</option>
-                                                <option value="23">21-25 yrs</option>
-                                                <option value="27">26-30 yrs</option>
-                                                <option value="33">31-35 yrs</option>
-                                                <option value="37">36-40 yrs</option>
-                                                <option value="43">41-45 yrs</option>
-                                                <option value="47">46-50 yrs</option>
-                                                <option value="54">Above-50 yrs</option>
-                                              </select>
-                                            </p>
-                                        </div>
-                                        <div>
-                                        <select  className='myFormBox' onChange={this.handleGenderChange}>
-                                              <option value={gender} disabled >Choose gender</option>
-                                              <option value="male">Male</option>
-                                              <option value="female">Female</option>
-                                              <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                        <p className='myFormBox'>                                 
-                                    <CountryDropdown
-                                     style={{border:'none'}}
-                                     value={country}
-                                     onChange={(val) => this.selectCountry(val)} />
-                                     </p>
-                                     {
-                                         this.state.country === ''?
-                                         <></>
-                                         :
-                                     <p className='myFormBox'>
-                                     <RegionDropdown
-                                     style={{border:'none'}}
-                                     country={country}
-                                     value={region}
-                                     onChange={(val) => this.selectRegion(val)} />
-                                     </p>
-                                    }
-                                        </div>
-                                        <div>
-                                        <select  className='myFormBox' onChange={this.handleDisabilityChange}>
-                                              <option value={disability} disabled>Choose disability (if any)</option>
-                                              <option value="Mentally Disable">Mentally Disable</option>
-                                                <option value="Hearing Loss/Deafness">Hearing Loss/Deafness</option>
-                                                <option value="Memory Loss">Memory Loss</option>
-                                                <option value="Speech/Language Disorder">Speech/Language Disorder</option>
-                                                <option value="Vision Loss/Blindness">Vision Loss/Blindness</option>
-                                                <option value="Any Physical Disability">Any Physical Disability</option>
-                                                <option value="Others">Others</option>
-                                                <option value="Not Disbaled">Not Disbaled</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            {this.state.dp_image !== ''?
-                                                    // <img src={require('../../media/dp_replacement.png')}  alt="Add_post Image" className='dp_styleXX circle responsive-img'/> */}
-                                                    <p className='myFormPicBox'>
-                                                   'your uploaded image is - ' + 
-                                                    
-                                                        {dp_image}
-                                                    </p>
-                                                    
-                                                                                                        :
-                                            
-                                          <p className='myFormPicBox' style={{padding:'8px'}}>
-                                                <input type="file" accept="image/*" onChange={this.handleImgChange} className="myAPImgUploadBtnX"/>
-                                            </p>
-                                            
-                                            }
-                                        </div>
-                                            <button className=" btn waves-effect waves-light myBtn" onClick={()=>{this.Search(get_posts)}} >Search</button>
+                        <div className="mySearchBox">
+                            {
+                                this.state.show_results === true?
+                                <div className="row">
+                                    {this.state.display_posts.length !== 0?
+                                <div>
+                                    
+                                    {this.New_Card_Creator(this.state.display_posts)}
+                                    
+                      <p>
+                        <button className=" btn waves-effect waves-light myBtn" onClick={()=>{this.setState({show_results: false})}} >Back to search</button>
+                      </p>
+                  </div>
+                  :
+                  <div className="col s12 m12 l12 xl12 center">
+                      Sorry, There is no post found to display.
+                  <button className=" btn waves-effect waves-light myBtn" onClick={()=>{this.setState({show_results: false})}} >Back to search</button>
+                  </div>
+                                }
                                     </div>
+                                :
+                            <div>
+                                {/* <div>Choose your options</div> */}
 
+                                <div>
+                                    <p>
+                                    <select className='myFormBox' onChange={this.handleStatusChange}>
+                                        <option value={status} >Choose person status</option>
+                                          <option value="missing">Missing</option>
+                                          <option value="found">Found</option>
+                            </select>
+                                    </p>
+                                    <p>
+                            <select className='myFormBox'  onChange={this.handleAgeChange}>
+                              <option value={age_group} >Choose your option</option>
+                              <option value="Under-5 yrs">Under-5 yrs</option>
+                              <option value="6-10 yrs">6-10 yrs</option>
+                              <option value="11-15 yrs">11-15 yrs</option>
+                              <option value="16-20 yrs">16-20 yrs</option>
+                              <option value="21-25 yrs">21-25 yrs</option>
+                              <option value="26-30 yrs">26-30 yrs</option>
+                              <option value="31-35 yrs">31-35 yrs</option>
+                              <option value="36-40 yrs">36-40 yrs</option>
+                              <option value="41-45 yrs">41-45 yrs</option>
+                              <option value="46-50 yrs">46-50 yrs</option>
+                              <option value="Above-50 yrs">Above-50 yrs</option>
+                            </select>
+                                    </p>
+                                </div>
+                                <div>
+                                <select  className='myFormBox' onChange={this.handleGenderChange}>
+                                      <option value={gender}  >Choose gender</option>
+                                      <option value="male">Male</option>
+                                      <option value="female">Female</option>
+                                      <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                <p className='myFormBox'>                                 
+                            <CountryDropdown
+                             style={{border:'none'}}
+                             value={country}
+                             onChange={(val) => this.selectCountry(val)} />
+                             </p>
+                             {
+                                 this.state.country === ''?
+                                 <></>
+                                 :
+                             <p className='myFormBox'>
+                             <RegionDropdown
+                             style={{border:'none'}}
+                             country={country}
+                             value={region}
+                             onChange={(val) => this.selectRegion(val)} />
+                             </p>
+                            }
+                                </div>
+                                <div>
+                                <select  className='myFormBox' onChange={this.handleDisabilityChange}>
+                                      <option value={disability} >Choose disability (if any)</option>
+                                      <option value="Mentally Disable">Mentally Disable</option>
+                                        <option value="Hearing Loss/Deafness">Hearing Loss/Deafness</option>
+                                        <option value="Memory Loss">Memory Loss</option>
+                                        <option value="Speech/Language Disorder">Speech/Language Disorder</option>
+                                        <option value="Vision Loss/Blindness">Vision Loss/Blindness</option>
+                                        <option value="Any Physical Disability">Any Physical Disability</option>
+                                        <option value="Others">Others</option>
+                                        <option value="Not Disbaled">Not Disbaled</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    {this.state.dp_image !== ''?
+                                            // <img src={require('../../media/dp_replacement.png')}  alt="Add_post Image" className='dp_styleXX circle responsive-img'/> */}
+                                            <p className='myFormPicBox'>
+                                           'your uploaded image is - ' + 
+                                            
+                                                {dp_image}
+                                            </p>
+                                            
+                                                                                                :
+                                    
+                                  <p className='myFormPicBox' style={{padding:'8px'}}>
+                                        <input type="file" accept="image/*" onChange={this.handleImgChange} className="myAPImgUploadBtnX"/>
+                                    </p>
+                                    
                                     }
-
                                 </div>
-                                <div className="myPanelList">
-
-                                </div>
+                                    <button className=" btn waves-effect waves-light myBtn" onClick={()=>{this.Search(this.state.all_posts)}} >Search</button>
                             </div>
-                        </div>
-                        <div className="col s0 m1 l1 xl1"></div>
 
-                        <div className="col s12 m3 l3 xl2">
-                            <Side_Links />
+                            }
+
+                        </div>
+                        <div className="myPanelList">
+
                         </div>
                     </div>
                 </div>
-                <Footer/>
-                <SubFooter />
+                <div className="col s0 m1 l1 xl1"></div>
+
+                <div className="col s12 m3 l3 xl2">
+                <div className="section table-of-contents">
+                    <Side_Links />                                       
+                    </div>
+                </div>
             </div>
-        )
-    }
-}
+        </div>
+        <Footer/>
+        <SubFooter />
+    </div>
+                          )}}
+
 //here the redux data will be converted into props
 const mapStateToProps=(state)=>{
     return{
         posts: state.posts,
-        user: state.users,
+        user: state.users
     }
 };
 
-export default connect(mapStateToProps, {set_posts, read_notification, loadData, loadDataUser})(Search);
-// export default Search
+export default connect(mapStateToProps, null)(Search);

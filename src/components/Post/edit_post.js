@@ -8,18 +8,21 @@ import Side_Links from '../Side_Panel/side_links';
 import {Link} from 'react-router-dom';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 
-
+//firebase storage
+import {storage} from '../../firebase/config';
 
 import {connect} from 'react-redux';
 import {add_post, update_post, loadData, del_post} from '../../redux/actions/postAction/post_actions';
 import {update_notification, del_notification} from '../../redux/actions/NotificatoinsAction/index';
 import Dp_Replacement from '../../media/dp_replacement.png'
 
+import ProgressBar from 'react-customizable-progressbar';
+
 
 class Edit_post extends Component {
     constructor(props){
         super(props);
-        let get_post_data = this.props.posts.filter((item)=> item.post_id === Number(localStorage.getItem('edit_post_code')))[0];
+        let get_post_data = this.props.posts.filter((item)=> item.post_id === localStorage.getItem('edit_post_code'))[0];
         // console.log('getPostData', get_post_data);
         
 
@@ -41,10 +44,19 @@ class Edit_post extends Component {
                 notification_id : '',
                 // password:'',
                 dp_image: get_post_data.dp_image,
+                image_name: get_post_data.image_name,
                 post_time: get_post_data.post_time,
                 posts_income: this.props.posts,
-                ex_post: this.props.posts.filter((item)=> item.post_id === Number(localStorage.getItem('edit_post_code')))[0],
-                ex_notification: this.props.notifications.filter((item)=> item.post_id === Number(localStorage.getItem('edit_post_code')))[0],
+                ex_post: this.props.posts.filter((item)=> item.post_id === localStorage.getItem('edit_post_code'))[0],
+                ex_notification: this.props.notifications.filter((item)=> item.post_id === localStorage.getItem('edit_post_code'))[0],
+
+                //............
+                confirmUpload: false,
+                isUploading: false,
+                progress: 0,
+                ///.,,,,,,,,,,,,
+                new_image_file: '',
+                new_image_name: '',
 
             // recievedUsers: this.props.recievedUsers,
     }
@@ -175,11 +187,14 @@ class Edit_post extends Component {
         //...........................................
         //email editing control
         handleImgChange=event=>{
-            let textX = this.state.dp_image;
-            textX = event.target.value
-            // console.log(textX, 'image path');
+            // let textX = this.state.new_image_file;
+            let textX = null;
+            textX = event.target.files[0];
+            console.log(textX, 'image path');
             this.setState({
-                dp_image: textX
+                new_image_file: textX,
+                new_image_name:textX.name,
+                confirmUpload: true,
             });
         }   
         //...........................................
@@ -198,7 +213,15 @@ class Edit_post extends Component {
         let captureState = this.state;
 
         if(captureState.dp_image === ''){
-            captureState.dp_image = captureState.ex_post.dp_image;}
+            this.setState({
+                dp_image: captureState.ex_post.dp_image
+            })
+            }
+            else if(captureState.image_name === ''){
+                this.setState({
+                    image_name: captureState.ex_post.image_name
+                })
+            }
         if(captureState.name === ''){
             alert('name is empty');
             }
@@ -240,7 +263,7 @@ class Edit_post extends Component {
       this.setState({
           post_time: get_time
       })
-      //.........................................
+      //......................3...................
         // console.log(this.state, 'state from add post');
         
             this.props.update_post({
@@ -256,6 +279,7 @@ class Edit_post extends Component {
                 region: this.state.region,
                 description: this.state.description,
                 dp_image: this.state.dp_image,
+                image_name: this.state.image_name,
                 post_time: this.state.post_time,
                 post_creator_email: this.props.user.email,
                 post_creator_name: this.props.user.name,
@@ -298,38 +322,14 @@ class Edit_post extends Component {
             //         // password:'',
             //         dp_image: '',
             // });
+            localStorage.removeItem('edit_post_code');
             window.history.back();
-        
-    }
+            
+        }
         //...............................................
-
+        
         //Re-enter function
-        //age group evaluations
-GiveAge =(age_group)=>{
-    if(age_group === '14'){
-        return 'Less than 15 yrs'
-    }
-    else if(age_group === '18'){
-        return '15 to 20 yrs';
-    }
-    else if(age_group === '23'){
-        return '21 to 25 yrs';
-    }    else if(age_group === '27'){
-        return '26 to 30 yrs';
-    }    else if(age_group === '33'){
-        return '31 to 35 yrs';
-    }    else if(age_group === '37'){
-        return '36 to 40 yrs';
-    }    else if(age_group === '43'){
-        return '41 to 45 yrs';
-    }
-    else if(age_group === '47'){
-        return '46 to 50 yrs';
-    }
-    else{
-        return 'above 50 yrs'
-    }
-}
+
 //..........................................
 //to delete a post
 
@@ -340,13 +340,15 @@ this.props.del_post({
 this.props.del_notification({
     id: id
 })
+this.HandleImageDelete();
+localStorage.removeItem('edit_post_code');
 window.history.back();
 // window.history.back();
 }
 
 //...........................................
-    //function to close the modal
-    closeModal=()=>{
+//function to close the modal
+closeModal=()=>{
         // alert('yes close');
 
         window.jQuery(document).ready(function(){
@@ -354,6 +356,72 @@ window.history.back();
           });   
 }
 //...........................................
+//image manipulations
+ChangeImageTemp = ()=>{
+    // this.fileInput.click();
+    // if(this.state.isUploading){
+    //     console.log('yes uploading');
+
+    // }
+    this.HandleImageUpload()
+}
+//to delete image on server
+HandleImageDelete=()=>{
+    console.log('ex post is',this.state.ex_post);
+    
+    const image_name= this.state.ex_post.image_name;
+    let imageRef = storage.ref(`images/${image_name}`);
+imageRef
+  .delete()
+  .then(() => {
+    console.log(`${image_name}has been deleted successfully.`);
+  })
+  .catch((e) => console.log('error on image deletion => ', e));
+}
+//............................................
+        //function to upload
+        HandleImageUpload=(posts, notifications)=>{
+            const image = this.state.new_image_file;
+            const uploadTask = storage.ref(`images/${image.name}`).put(image);
+            uploadTask.on(
+              'state_changed',
+              snapshot=>{
+                const progress = Math.round(
+                  (snapshot.bytesTransferred / snapshot.totalBytes)*100
+                );
+                this.setState({
+                  progress: progress
+                });
+              },
+              error =>{
+                console.log(error);
+              },
+              ()=>{
+                storage
+                .ref('images')
+                .child(image.name)
+                .getDownloadURL()
+                .then(url => {
+                  console.log(url);
+                  this.setState({
+                    dp_image: url,
+                    image_name:image.name,
+                    confirmUpload: false,
+                    isUploading: false,
+                  });
+                  this.HandleImageDelete();
+                //   this.Checker(posts, notifications);
+                });
+            }
+            );
+        };
+
+
+
+
+
+
+///................................................................................
     render() {
         let acc = this.props.posts[0];
         let posts_state = this.props.posts;
@@ -371,6 +439,11 @@ window.history.back();
             disability,
             location,
             description,
+            progress,
+            isUploading,
+            confirmUpload,
+            image_name,
+            new_image_name,
         dp_image, ex_post, post_status } = this.state;
 
 //to get
@@ -402,18 +475,20 @@ let extract_post = posts_state.filter((i)=> i.post_id === grab_post_code);
                             <div>
 
                             <table>
+                                <tbody>
+
                                     {/* {this.state.isEmpty?
                                     <tr>
                                     <td className='myProfileItemTitle'>Name</td>
                                     <td className='myProfileItemEmptyTxt'>You enter no new name?</td>    
                                     <td>
                                         <button onClick={()=>{this.setState({re_enter: true})}} className="btn red">Re-enter</button>
-                                    </td>
+                                        </td>
                                     <td>
                                         <button onClick={()=>{this.setState({re_enter: false, isEmpty: false})}} className="btn red" >Ignore</button>
                                     </td>
                                     </tr>
-                                    : */}
+                                : */}
 
 
                                     {/* } */}
@@ -461,16 +536,18 @@ let extract_post = posts_state.filter((i)=> i.post_id === grab_post_code);
                                     <td className='myProfileItemTitle'>Age Group</td>
                                     <td colSpan="2">
                                     <select style={{border: 'none',}} onChange={this.handleAgeChange}>
-                                <option value={age_group} disabled selected>{this.GiveAge(age_group)}</option>
-                                      <option value="14">Under-15 yrs</option>
-                                      <option value="18">16-20 yrs</option>
-                                      <option value="23">21-25 yrs</option>
-                                      <option value="27">26-30 yrs</option>
-                                      <option value="33">31-35 yrs</option>
-                                      <option value="37">36-40 yrs</option>
-                                      <option value="43">41-45 yrs</option>
-                                      <option value="47">46-50 yrs</option>
-                                      <option value="54">Above-50 yrs</option>
+                                <option value={age_group} >{age_group}</option>
+                                      <option value="Under-5 yrs">Under-5 yrs</option>
+                                      <option value="6-10 yrs">6-10 yrs</option>
+                                      <option value="11-15 yrs">11-15 yrs</option>
+                                      <option value="16-20 yrs">16-20 yrs</option>
+                                      <option value="21-25 yrs">21-25 yrs</option>
+                                      <option value="26-30 yrs">26-30 yrs</option>
+                                      <option value="31-35 yrs">31-35 yrs</option>
+                                      <option value="36-40 yrs">36-40 yrs</option>
+                                      <option value="41-45 yrs">41-45 yrs</option>
+                                      <option value="46-50 yrs">46-50 yrs</option>
+                                      <option value="Above-50 yrs">Above-50 yrs</option>
                                     </select>
                                     </td>
                                 </tr>
@@ -478,7 +555,7 @@ let extract_post = posts_state.filter((i)=> i.post_id === grab_post_code);
                                     <td className='myProfileItemTitle'>Disability</td>
                                     <td colSpan="2">
                                     <select style={{border: 'none',}} onChange={this.handleDisabilityChange}>
-                                <option value={disability} disabled selected>{disability}</option>
+                                <option value={disability}>{disability}</option>
                                       <option value="Mentally Disable">Mentally Disable</option>
                                         <option value="Hearing Loss/Deafness">Hearing Loss/Deafness</option>
                                         <option value="Memory Loss">Memory Loss</option>
@@ -510,16 +587,16 @@ let extract_post = posts_state.filter((i)=> i.post_id === grab_post_code);
                                     <td colSpan="2">
                                      <RegionDropdown
                                      style={{border:'none'}}
-                                         country={country}
+                                     country={country}
                                          value={region}
-                                        onChange={(val) => this.selectRegion(val)} />
+                                         onChange={(val) => this.selectRegion(val)} />
                                     </td>
                                 </tr>                                
                                 {/* <tr>
                                     <td className='myProfileItemTitle'>Phone #</td>
                                     <td colSpan="2">
                                         {this.state.edit?
-                                        <input placeholder={acc.number} id="phone" onChange={this.handleNumberChange} type="tel" className="myAP/TxtBox validate"  />
+                                            <input placeholder={acc.number} id="phone" onChange={this.handleNumberChange} type="tel" className="myAP/TxtBox validate"  />
                                         :
                                         acc.number                                       
                                     }
@@ -532,20 +609,70 @@ let extract_post = posts_state.filter((i)=> i.post_id === grab_post_code);
                                     </td>
                                 </tr>
                                     {
-                                    dp_image !== ''?
-                                <tr>
+                                        dp_image !== ''?
+                                        confirmUpload?
+                                        <tr>
+                                            {
+                                                isUploading?
+                                                <td colSpan='3'>
+                                       <div class="card">
+                                        <div class="card-content">
+                                         Uploading........ Wait
+                                         </div>
+                                                 <ProgressBar
+                                                    radius={100}
+                                                    progress={progress}
+                                                        strokeWidth={18}
+                                                        //    strokeColor="#a0d468"
+                                                           strokeColor="teal"
+                                                           className='your-indicator '
+                                                                strokeLinecap="round"
+                                                                    trackStrokeWidth={18}
+                                                                        counterClockwise
+                                                >
+                                                   <div className="indicator">
+                                                        <div>{progress}%</div>
+                                                    </div>
+                                             </ProgressBar>
+                                             <div class="card-action">
+                                                 </div></div>
+                                                </td>
+                                                :
+                                                <td colSpan='3'>
+                                       <div class="card">
+                                        <div class="card-content">
+                                         Selected image is {new_image_name}
+                                         </div>
+                                                <button className="bt000000000n myUpdateBtnX" onClick={()=>{this.setState({isUploading: true}); this.ChangeImageTemp()}}>Confirm change</button>    
+                                                <div class="card-action">
+                                                 <button onClick={()=>{this.setState({confirmUpload: false})}}>Cancel</button>
+                                                 </div></div>
+                                                </td>
+                                            }
+                                        </tr>
+                                        :
+                                        <tr>
                                         <td colSpan='3'>
+                                        <div class="card">
+                                        <div class="card-content">
+                                         your uploaded image is
+                                         </div>
+                                       <div class="card-image">
+                                        <img src={dp_image} />
+                                         </div>
+                                        <div class="card-action">
+                                        <input type="file" accept="image/*" onChange={this.handleImgChange} className="myAPImgUploadBtnX"/>
+                                          {/* <button onClick={this.ChangeImageTemp}>Change image</button> */}
+                                            </div>
+                                             </div>
                                         {/* <img src={require('../../media/dp_replacement.png')}  alt="Edit_post Image" className='dp_styleXX circle responsive-img'/> */}
-                                        your uploaded image is <p>
-                                            {dp_image}
-                                        </p>
                                         </td>
                                         </tr>
                                 :
                                 <tr>
                                     {/* <td className='myProfileItemTitle'>Upload image</td> */}
                                     <td colSpan="3">
-                                    <input type="file" accept="image/*" onChange={this.handleImgChange} className="myAPImgUploadBtnX"/>
+                                    {/* <input type="file" accept="image/*" onChange={this.handleImgChange} className="myAPImgUploadBtnX"/> */}
                                     </td>
                                 </tr>
                             }
@@ -553,7 +680,7 @@ let extract_post = posts_state.filter((i)=> i.post_id === grab_post_code);
                                     <td className='myProfileItemTitle'>Password</td>
                                     <td colSpan="2">
                                         {this.state.edit?
-                                        <input placeholder={acc.password} id="password" onChange={this.handlePasswordChange} type="password" className="myAP/TxtBox validate"  />
+                                            <input placeholder={acc.password} id="password" onChange={this.handlePasswordChange} type="password" className="myAP/TxtBox validate"  />
                                         :
                                         acc.password                                       
                                     }
@@ -561,7 +688,7 @@ let extract_post = posts_state.filter((i)=> i.post_id === grab_post_code);
                                 </tr> */}
                                 {/* <tr>
                                     <td>
-                                        <Link to="/home"><button className="btn myUpdateBtnX myBtn">Home</button></Link>    
+                                    <Link to="/home"><button className="btn myUpdateBtnX myBtn">Home</button></Link>    
                                     </td>
                                     <td>
                                         {this.state.edit?
@@ -581,11 +708,14 @@ let extract_post = posts_state.filter((i)=> i.post_id === grab_post_code);
                                     <button data-target="modal1"  className="btn myUpdateBtnX myBtn modal-trigger" >Delete Post</button>    
                                     </td>
                                 </tr>
+                            </tbody>
                             </table>
                             </div>
                         </div>
                         <div className="col s12 m4 l4 xl2">
+                        <div className="section table-of-contents">
                             <Side_Links />
+                              </div>
                         </div>
                     </div>
        <div>

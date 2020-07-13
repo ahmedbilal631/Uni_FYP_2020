@@ -160,7 +160,9 @@ state =  {
                             </div>
 
                         <div className="col s12 m3 l3 xl2">
-                            <Side_Links />
+                        <div className="section table-of-contents">
+                            <Side_Links />                                       
+                            </div>
                         </div>
                     </div>
                 </div>

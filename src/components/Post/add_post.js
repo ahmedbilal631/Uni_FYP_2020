@@ -11,7 +11,8 @@ import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-countr
 //firebase storage
 import {storage} from '../../firebase/config';
 
-
+//id specifier
+import { v4 as uuidv4 } from 'uuid';
 
 
 import {connect} from 'react-redux';
@@ -19,6 +20,8 @@ import {add_post, update_post} from '../../redux/actions/postAction/post_actions
 import {add_notification} from '../../redux/actions/NotificatoinsAction/index';
 import Dp_Replacement from '../../media/dp_replacement.png'
 
+
+import ProgressBar from 'react-customizable-progressbar';
 
 class Add_post extends Component {
     constructor(){
@@ -43,8 +46,10 @@ class Add_post extends Component {
 
                 //............firebase....
                 image: '',
+                image_name: '',
                 url: '',
                 progress: 0,
+                isUploading: false,
 
 
             // recievedUsers: this.props.recievedUsers,
@@ -174,7 +179,8 @@ class Add_post extends Component {
             textX = event.target.files[0];
             console.log(textX, 'image path');
             this.setState({
-                image: textX
+                image: textX,
+                image_name: textX.name
             });
         }   
         //...........................................
@@ -189,7 +195,8 @@ class Add_post extends Component {
                   (snapshot.bytesTransferred / snapshot.totalBytes)*100
                 );
                 this.setState({
-                  progress: progress
+                    isUploading: true,
+                  progress: progress,
                 });
               },
               error =>{
@@ -254,38 +261,49 @@ class Add_post extends Component {
         let posts_array_length = old_posts.length-1;
         let notifications_array_length = old_notifications.length-1;
         //to get higher rank id
-        let higher_id_posts =7891779300001;
-        for(let i = 0; i<=posts_array_length; i = i+1){  
-            if(old_posts[i].post_id > higher_id_posts){
-                higher_id_posts = old_posts[i].post_id;
-            }
-        }
-        let higher_id_notification = 786000;
-    for(let i = 0; i<=notifications_array_length; i = i+1){  
-        if(old_notifications[i].notification_id > higher_id_notification){
-          higher_id_notification = old_notifications[i].notification_id;
-      }
-  }
+//         let higher_id_posts =7891779300001;
+//         for(let i = 0; i<=posts_array_length; i = i+1){  
+//             if(old_posts[i].post_id > higher_id_posts){
+//                 higher_id_posts = old_posts[i].post_id;
+//             }
+//         }
+//         let higher_id_notification = 786000;
+//     for(let i = 0; i<=notifications_array_length; i = i+1){  
+//         if(old_notifications[i].notification_id > higher_id_notification){
+//           higher_id_notification = old_notifications[i].notification_id;
+//       }
+//   }
     //   console.log(higher_id_posts, ' add post higher id old array');  
     //   console.log(higher_id_notification, ' add notification higher id old array');  
      
         //time identity in a post
       let yr = new Date().getFullYear();
       let mn = new Date().getMonth();
+      if((mn + 1) <= 9){
+        mn = ('0'+ (mn + 1).toString())
+    }
       let dt = new Date().getDate();
+      if(dt <= 9){
+          dt = ('0'+ dt.toString())
+      }
       let hr = new Date().getHours().toString();
       let min = new Date().getMinutes().toString();
-      let get_time =Number( yr.toString()+(mn + 1).toString()+dt.toString());
+      let get_time =Number( yr.toString()+ mn + dt);
       console.log(get_time, 'form time number add_post');
       this.setState({
           post_time: get_time
       })
       //.........................................
-        // console.log(this.state, 'state from add post');
-        
+      //id definer
+
+      let post_new_id = uuidv4();
+      let noti_new_id = uuidv4();
+        console.log(post_new_id, noti_new_id, 'state from add post');
+        //.......................................................
+        //........uploading
             this.props.add_post({
                 post: {
-                post_id: higher_id_posts + 1,
+                post_id: post_new_id,
                 name : this.state.name,
                 status: this.state.status,
                 gender: this.state.gender,
@@ -296,15 +314,18 @@ class Add_post extends Component {
                 region: this.state.region,
                 description: this.state.description,
                 dp_image: this.state.dp_image,
+                image_name: this.state.image_name,
                 post_time: this.state.post_time,
                 post_creator_email: this.props.user.email,
                 post_creator_name: this.props.user.name,
                 post_status: 'active', //active , disabled, resolved
-                notification_id: higher_id_notification +1,
+                notification_id: noti_new_id,
+                      isReported: false,
+      reported_by: 'none',
                 post_time: {
                     // month-year
                     date: dt, //0-30
-                    month: mn + 1, //0-11
+                    month: mn, //0-11
                     year: yr, //0-now
                 },
                 follwed_by: []
@@ -313,8 +334,8 @@ class Add_post extends Component {
             //actions making for notification
             this.props.add_notification({
                 notification: {
-                    notification_id: higher_id_notification +1,
-                    post_id: higher_id_posts + 1,
+                    notification_id: noti_new_id,
+                    post_id: post_new_id,
                     post_creator_id: this.props.user.user_id,
                     notification_date: get_time,
                     notification_status: 'posted', //posted , updated
@@ -346,6 +367,8 @@ class Add_post extends Component {
                     resloved: false,
                     // password:'',
                     dp_image: '',
+                    progress: 0,
+                    isUploading: false,
             });
         
     }
@@ -370,6 +393,7 @@ class Add_post extends Component {
             disability,
             location,
             description,
+            progress,
         dp_image } = this.state;
 
 //to get
@@ -389,7 +413,7 @@ class Add_post extends Component {
                 </div>
                 <div className="container">
                     <div className="row">
-                        <div className="col s12 m8 l8 xl10">
+                        <div className="col s12 m12 l12 xl8">
                             <div>
 
                             <table>
@@ -441,15 +465,17 @@ class Add_post extends Component {
                                     <td colSpan="2">
                                     <select style={{border: 'none',}} onChange={this.handleAgeChange}>
                                       <option value={age_group} >Choose your option</option>
-                                      <option value="14">Under-15 yrs</option>
-                                      <option value="18">16-20 yrs</option>
-                                      <option value="23">21-25 yrs</option>
-                                      <option value="27">26-30 yrs</option>
-                                      <option value="33">31-35 yrs</option>
-                                      <option value="37">36-40 yrs</option>
-                                      <option value="43">41-45 yrs</option>
-                                      <option value="47">46-50 yrs</option>
-                                      <option value="54">Above-50 yrs</option>
+                                      <option value="Under-5 yrs">Under-5 yrs</option>
+                                      <option value="6-10 yrs">6-10 yrs</option>
+                                      <option value="11-15 yrs">11-15 yrs</option>
+                                      <option value="16-20 yrs">16-20 yrs</option>
+                                      <option value="21-25 yrs">21-25 yrs</option>
+                                      <option value="26-30 yrs">26-30 yrs</option>
+                                      <option value="31-35 yrs">31-35 yrs</option>
+                                      <option value="36-40 yrs">36-40 yrs</option>
+                                      <option value="41-45 yrs">41-45 yrs</option>
+                                      <option value="46-50 yrs">46-50 yrs</option>
+                                      <option value="Above-50 yrs">Above-50 yrs</option>
                                     </select>
                                     </td>
                                 </tr>
@@ -458,14 +484,14 @@ class Add_post extends Component {
                                     <td colSpan="2">
                                     <select style={{border: 'none',}} onChange={this.handleDisabilityChange}>
                                       <option value={disability} >Choose your option</option>
-                                      <option value="mental">Mentally Disable</option>
-                                        <option value="hearing">Hearing Loss/Deafness</option>
-                                        <option value="memory">Memory Loss</option>
-                                        <option value="speak">Speech/Language Disorder</option>
-                                        <option value="vision">Vision Loss/Blindness</option>
-                                        <option value="physical">Any Physical Disability</option>
-                                        <option value="other">Others</option>
-                                        <option value="not_disabled">Not Disbaled</option>
+                                      <option value="Mentally Disable">Mentally Disable</option>
+                                        <option value="Hearing Loss/Deafness">Hearing Loss/Deafness</option>
+                                        <option value="Memory Loss">Memory Loss</option>
+                                        <option value="Speech/Language Disorder">Speech/Language Disorder</option>
+                                        <option value="Vision Loss/Blindness">Vision Loss/Blindness</option>
+                                        <option value="Physical Disability">Any Physical Disability</option>
+                                        <option value="Not Disbaled">Not Disbaled</option>
+                                        <option value="Not Mentioned">Not Mentioned</option>
                                     </select>
                                     </td>
                                 </tr>
@@ -550,17 +576,41 @@ class Add_post extends Component {
                                     }
                                     </td>
                                 </tr> */}
-                                <tr>
+                                <tr>{
+                                    this.state.isUploading?
                                     <td colSpan="2" className="center">
-                                    <button className="btn myUpdateBtnX myBtn" onClick={()=>{this.HandleImageUpload(posts_state, notifications_state)}}>Submit & Post</button>    
-                                    </td>
+                                                <ProgressBar
+                                                    radius={100}
+                                                    progress={progress}
+                                                        strokeWidth={18}
+                                                        //    strokeColor="#a0d468"
+                                                           strokeColor="teal"
+                                                           className='your-indicator '
+
+                                                                strokeLinecap="round"
+                                                                    trackStrokeWidth={18}
+                                                                        counterClockwise
+                                                >
+                                                   <div className="indicator">
+                                                        <div>{progress}%</div>
+                                                    </div>
+                                                 </ProgressBar>
+                                        {/* {this.state.progress} */}
+                                        </td>
+                                        :
+                                        <td colSpan="2" className="center">
+                                        <button className="btn myUpdateBtnX myBtn" onClick={()=>{this.HandleImageUpload(posts_state, notifications_state)}}>Submit & Post</button>    
+                                        </td>
+                                    }
                                 </tr>
                                     </tbody>
                             </table>
                             </div>
                         </div>
-                        <div className="col s12 m4 l4 xl2">
+                        <div className="col s12 m12 l12 xl4">
+                            <div className="section table-of-contents">
                             <Side_Links />                                       
+                            </div>
                         </div>
                     </div>
                 </div>

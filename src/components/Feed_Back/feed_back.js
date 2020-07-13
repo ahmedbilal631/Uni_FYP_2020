@@ -31,7 +31,7 @@ class Feed_Back extends Component {
                 description:'',
                 dp_image: '',
                 post_time: '',
-                post_id: localStorage.getItem('isReport') !== null? Number(localStorage.getItem('reported_post_id')) : '' ,
+                post_id: localStorage.getItem('msg_type') === 'report'? localStorage.getItem('reported_post_id') : '' ,
                   // report
                   msg_type: localStorage.getItem('msg_type') === 'report'? 'report': 'feedback',
 
@@ -115,7 +115,7 @@ class Feed_Back extends Component {
         //email editing control
         handleImgChange=event=>{
             let textX = this.state.dp_image;
-            textX = event.target.value
+            textX = event.target.file[0]
             console.log(textX, 'image path');
             this.setState({
                 dp_image: textX
@@ -181,7 +181,7 @@ class Feed_Back extends Component {
                   date: dt, month: mn, year: yr
               }
             }
-            this.props.send_feedback(feedback_msg);
+            this.props.send_report(report_msg);
             this.setState({
                 edit: false,
                 isEmpty: false,
@@ -211,8 +211,7 @@ class Feed_Back extends Component {
                 date: dt, month: mn, year: yr
             }
         }
-
-        this.props.send_report(report_msg);
+        this.props.send_feedback(feedback_msg);
         this.setState({
             edit: false,
             isEmpty: false,
@@ -298,6 +297,7 @@ class Feed_Back extends Component {
                             <div>
 
                             <table>
+                                <tbody>
                                     {/* {this.state.isEmpty?
                                     <tr>
                                     <td className='myProfileItemTitle'>Name</td>
@@ -316,7 +316,7 @@ class Feed_Back extends Component {
                                     <td className='myProfileItemTitle'>Type</td>
                                     <td colSpan="2">
                                     <select style={{border: 'none',}} onChange={this.handleTypeChange}>
-                                <option value={msg_type} disabled selected>{msg_type==='report'? "REPORT": "FEEDBACK"}</option>
+                                <option value={msg_type}>{msg_type==='report'? "REPORT": "FEEDBACK"}</option>
                                       <option value="report">Report</option>
                                       <option value="feedback">Feedback</option>
                                       <option value="request">Request</option>
@@ -325,15 +325,15 @@ class Feed_Back extends Component {
                                     </td>
                                 </tr>
                                 <tr>    
-                                    <td className='myProfileItemTitle'>Person Name</td>
+                                    <td className='myProfileItemTitle'>Full Name</td>
                                     <td colSpan="2">
-                                      <input placeholder="Person Name" value={name} onChange={this.handleNameChange} id="person_name" type="text" className="myAPTxtBox validate" />
+                                      <input placeholder="your name" value={name} onChange={this.handleNameChange} id="person_name" type="text" className="myAPTxtBox validate" />
                                     </td>
                                     </tr>
                                     <tr>    
                                     <td className='myProfileItemTitle'>Email</td>
                                     <td colSpan="2">
-                                      <input placeholder="Person Name" value={email} onChange={this.handleEmailChange} id="person_name" type="text" className="myAPTxtBox validate" />
+                                      <input placeholder="email here" value={email} onChange={this.handleEmailChange} id="person_email" type="text" className="myAPTxtBox validate" />
                                     </td>
                                     </tr>
                                     <tr>
@@ -358,7 +358,7 @@ class Feed_Back extends Component {
                                     <tr>    
                                     <td className='myProfileItemTitle'>Subject</td>
                                     <td colSpan="2">
-                                      <input placeholder="Person Name" value={subject} onChange={this.handleSubjectChange} id="person_name" type="text" className="myAPTxtBox validate" />
+                                      <input placeholder="subject here" value={subject} onChange={this.handleSubjectChange} id="person_subject" type="text" className="myAPTxtBox validate" />
                                     </td>
                                     </tr>
 
@@ -424,11 +424,15 @@ class Feed_Back extends Component {
                                     <button className="btn myUpdateBtnX myBtn" onClick={()=>{this.Checker(user)}}>Submit</button>    
                                     </td>
                                 </tr>
+
+                                </tbody>
                             </table>
                             </div>
                         </div>
                         <div className="col s12 m4 l4 xl2">
-                            <Side_Links />                                       
+                        <div className="section table-of-contents">
+                            <Side_Links />
+                              </div>                                       
                         </div>
                     </div>
                 </div>

@@ -161,10 +161,10 @@ class LoginScreen extends Component {
   return(
           <ScrollView style={{backgroundColor: bgClr }}> 
         <StatusBar backgroundColor={appColor} barStyle="light-content" />
-        <View>
+        {/* <View>
   <Text>Hello: height: {getHeight} ...... Width: {getWidth} bgClr = {bgClr}</Text>
         <Text>LogoClr: {this.state.logoClr}</Text>
-        </View>
+        </View> */}
             {/* <View style={myViewCenter}>
             {
               logoClr == 'pink'?

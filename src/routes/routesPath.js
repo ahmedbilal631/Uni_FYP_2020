@@ -20,6 +20,7 @@ export const ADMIN_LOGIN = '/admin/login';
 export const ADMIN = '/admin';
 export const AD_POSTS_MANAGEMENT = '/admin/posts_management';
 export const AD_USERS_MANAGEMENT = '/admin/users_management';
+export const AD_SITE_MANAGEMENT = '/admin/site_management';
 
 
 

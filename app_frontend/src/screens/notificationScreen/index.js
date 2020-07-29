@@ -31,8 +31,8 @@ class notificationScreen extends Component {
             <Container>
                 <View>
                     <StatusBar
-                        backgroundColor={appColor}
-                        barStyle="light-content"
+                        backgroundColor={'#E6DBDD'}
+                        barStyle="dark-content"
                     />
                 </View>
                 <View style={[styles.header,{backgroundColor:appColor}]}>

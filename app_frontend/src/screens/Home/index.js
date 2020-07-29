@@ -213,7 +213,7 @@ getOrientation = () => {
 
         <ScrollView>
         <View>
-    <Text>my orientation + {orientation} + width + {getWidth} + color + {bgClr} + myclr +  </Text>
+    {/* <Text>my orientation + {orientation} + width + {getWidth} + color + {bgClr} + myclr +  </Text> */}
           <Carousel
             style={{width: getWidth, height: 250, flex: 1,}}
             delay={2000}
